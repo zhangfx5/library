@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ambitious.library.dao.BookDao">
+    <select id="queryBook" resultType="com.ambitious.library.entity.Book">
+		SELECT book_id, book_name,
+		create_time, modify_time,type,dr
+		FROM tb_book
+		ORDER BY create_time
+		DESC
+	</select>
+    <select id="queryBookById" resultType="com.ambitious.library.entity.Book">
+		SELECT book_id, book_name,
+		create_time, modify_time,type,dr
+		FROM tb_book
+		WHERE
+		book_id=#{bookId}
+	</select>
+    <insert id="insertBook" useGeneratedKeys="true" keyProperty="bookId"
+            keyColumn="book_id" parameterType="com.ambitious.library.entity.Book">
+		INSERT INTO
+		tb_book(book_name,create_time,
+		modify_time,type,dr)
+		VALUES
+		(#{bookName},#{createTime},
+		#{modifyTime},#{type},#{dr})
+	</insert>
+    <update id="updateBook" parameterType="com.ambitious.library.entity.Book">
+        update tb_book
+        <set>
+            <if test="bookName != null">book_name=#{bookName},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="modifyTime != null">modify_time=#{modifyTime}</if>
+            <if test="type != null">type=#{type}</if>
+            <if test="dr != null">dr=#{dr}</if>
+        </set>
+        where book_id=#{bookId}
+    </update>
+    <delete id="deleteBook">
+		DELETE FROM
+		tb_book
+		WHERE
+		book_id =
+		#{bookId}
+	</delete>
+</mapper>
